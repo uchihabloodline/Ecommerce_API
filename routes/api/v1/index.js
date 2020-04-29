@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 
-router.get('/product', require('./products'));
+router.use('/product', require('./products'));
 
 
 module.exports = router;
