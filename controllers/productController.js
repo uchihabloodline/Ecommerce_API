@@ -1,17 +1,16 @@
 const mongoose = require('mongoose');
-
 const Product = require('../model/products');
 
 
 //get product controller
 module.exports.getProduct = async function(req,res){
-        let products  = await Product.find({})
+        let product  = await Product.find({})
         .sort('-createdAt');
     
         return res.json(200,{
-            products:products
+            products:product
         });
-        console.log("Error while fetching products API");
+        console.log("Error while fetching products");
 };
 
 //add product controller
@@ -30,32 +29,20 @@ module.exports.addProduct = async function(req,res){
           message:"Internal server error"
       });
     }
-    
-    // Product.create(req.body, function(err, product){
-    //     if(err){
-    //         console.error(err);
-    //         return  res.redirect('/')
-    //     }
-
-       
-  //  });
 };
 
 //updateProduct Controller
 module.exports.updateProduct = function(req,res){
     const qty = parseInt(req.query.number);
-    //console.log("params:", req.params.id, req.query.number);
     Product.findByIdAndUpdate(req.params.id, {$inc:{quantity:qty}},{new:true}, function(err, product){
       if(err){
         console.error("Error",err);
         return res.redirect("/");
       }
-        //console.log(newProduct);
-        // newProduct.quantity=qty;
-        // newProduct.save();
-        return res.json({data:{
+        return res.json({
+          data:{
             product: product,
-            message: "updated succesfully"
+            message: "product details updated succesfully"
         }});
         
     });  
